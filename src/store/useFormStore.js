@@ -8,15 +8,19 @@ const useFormStore = create(
 
             // Save Form for a User
             saveForm : (userId, formData) => {
+              const formId = Date.now().toString();
                 set((state) => ({
                     forms: {
                         ...state.forms,
-                        [userId]: formData,
-                        [formId]:{
+                        [userId]: {
+                          ...(state.forms[userId] || {}),
+                          [formId]:{
                             id:formId,
                             ...formData,
                             savedAt: new Date().toISOString()
                         }
+                        },
+                        
                     }
                 }));
                 return formId;
